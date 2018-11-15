@@ -1,3 +1,4 @@
+// exports a function, holding api
 module.exports = function(app, passport, db) {
 
 // normal routes ===============================================================
@@ -9,7 +10,7 @@ module.exports = function(app, passport, db) {
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
-        db.collection('messages').find().toArray((err, result) => {
+        db.collection('orders').find().toArray((err, result) => {
           if (err) return console.log(err)
           res.render('profile.ejs', {
             user : req.user,
@@ -24,24 +25,30 @@ module.exports = function(app, passport, db) {
         res.redirect('/');
     });
 
-// message board routes ===============================================================
+// cashier orders routes =============================================
 
-    app.post('/messages', (req, res) => {
-      db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
+// post you are sending form data, body parser breaks down form data, all info falls into req, form when makes post sends data, post is pulling the name property out of that data
+
+    app.post('/', (req, res) => {
+      db.collection('orders').save({name: req.body.cust, msg: req.body.order, complete: false}, (err, result) => {
         if (err) return console.log(err)
+        console.log(req.body);
         console.log('saved to database')
         res.redirect('/profile')
       })
     })
 
-    app.put('/messages', (req, res) => {
-      db.collection('messages')
+// request by fetch not form, still req .body
+    app.put('/profile', isLoggedIn, function(req, res) {
+      db.collection('orders')
       .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
         $set: {
-          thumbUp:req.body.thumbUp + 1
+          complete:true
         }
       }, {
-        sort: {_id: -1},
+        // sorts the direction for bottom up or top bottom
+        sort: {_id: 1},
+        // if you cant find it, it makes it for you
         upsert: true
       }, (err, result) => {
         if (err) return res.send(err)
@@ -49,8 +56,8 @@ module.exports = function(app, passport, db) {
       })
     })
 
-    app.delete('/messages', (req, res) => {
-      db.collection('messages').findOneAndDelete({name: req.body.name, msg: req.body.msg}, (err, result) => {
+    app.delete('/messagesDel', (req, res) => {
+      db.collection('orders').remove({complete: true}, (err, result) => {
         if (err) return res.send(500, err)
         res.send('Message deleted!')
       })

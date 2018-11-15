@@ -1,4 +1,5 @@
 // config/passport.js
+// creates a collection in Mongo with all users information
 
 // load all the things we need
 var LocalStrategy   = require('passport-local').Strategy;
@@ -7,6 +8,7 @@ var LocalStrategy   = require('passport-local').Strategy;
 var User       		= require('../app/models/user');
 
 // expose this function to our app using module.exports
+// exports a fucntion
 module.exports = function(passport) {
 
 	// =========================================================================
