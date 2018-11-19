@@ -6,6 +6,13 @@ img{
   height: 200px;
 }
 
+.jumbotron{
+  color: white;
+  background-image: url(img/barista.jpg);
+  background-size: cover;
+  height: 600px;
+}
+
 h3{
   font-size: 1.5em;
   font-weight: bold;
