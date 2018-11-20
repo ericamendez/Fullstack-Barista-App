@@ -20,10 +20,23 @@ h3{
 }
 .order{
   font-size: 2em;
+  background-color: white;
+}
+
+.order ul{
+  padding: 0;
+}
+
+.order li{
+  border: 1px solid lightgrey;
+  padding: 5px 0 5px 5px;
 }
 
 .complete{
-  color: green;
+  color: white;
+  background-color: green;
+  border-radius: 5px;
+  padding: 20px;
 }
 h4{
   font-weight: bold;

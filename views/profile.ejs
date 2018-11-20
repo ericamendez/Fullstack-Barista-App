@@ -13,7 +13,6 @@
 
     <div class="page-header text-center">
       <h1><span class="fa fa-anchor"></span> Barista</h1>
-      <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
 
     <div class="row">
@@ -29,17 +28,37 @@
             <%= user._id %><br>
             <strong>email</strong>:
             <%= user.local.email %><br>
-            <strong>password</strong>:
-            <%= user.local.password %>
+            <!-- <strong>password</strong>:
+            <%= user.local.password %> -->
           </p>
 
           <a href="/unlink/local" class="btn btn-default">Unlink</a>
           <% } else { %>
           <a href="/connect/local" class="btn btn-default">Connect Local</a>
           <% } %>
+          <a href="/logout" class="btn btn-default btn-sm">Logout</a>
 
         </div>
+        <div class="complete">
+          <h4>Completed <button class="clear" type="button" name="button">Clear</button></h4>
+
+          <ul class="messages">
+            <% for(var i=0; i<messages.length; i++) {%>
+              <% if(messages[i].complete == true) {%>
+                <% if (user.local.email) { %>
+                  <li class="message">
+                    <span class="compOrd"><%= messages[i].name %></span>
+                    <span class="compOrd"><%= messages[i].msg %></span>
+                    <span class="barista">Made By:</span>
+                    <span class="barista"><%= user.local.email %></span>
+                  </li>
+                  <% } %>
+                  <% } %>
+                  <% } %>
+                </ul>
+              </div>
       </div>
+      
       <div class="col-sm-6 order">
         <h3>Orders</h3>
         <ul class="messages">
@@ -57,26 +76,6 @@
 
       </div>
 
-      <div class="col-sm-6 complete">
-        <h4>Completed <button class="clear" type="button" name="button">Clear</button></h4>
-
-        <ul class="messages">
-          <% for(var i=0; i<messages.length; i++) {%>
-          <% if(messages[i].complete == true) {%>
-          <% if (user.local.email) { %>
-          <li class="message">
-            <span class="compOrd"><%= messages[i].name %></span>
-            <span class="compOrd"><%= messages[i].msg %></span>
-            <span class="barista">Made By:</span>
-            <span class="barista"><%= user.local.email %></span>
-          </li>
-          <% } %>
-          <% } %>
-          <% } %>
-        </ul>
-
-
-      </div>
 
     </div>
 
